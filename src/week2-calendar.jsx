@@ -12,6 +12,7 @@ import {
 import QuoteCard from "./components/QuoteCard";
 import DayTimeline from "./components/DayTimeline";
 import WeekPreview from "./components/WeekPreview";
+import StickerBuddy from "./components/StickerBuddy";
 
 export default function WeekCalendar() {
   const [now, setNow] = useState(new Date());
@@ -136,6 +137,119 @@ export default function WeekCalendar() {
         .hover-scale:hover { transform: scale(1.05); }
         .hover-glow { transition: all 0.2s ease; }
         .hover-glow:hover { box-shadow: 0 0 20px rgba(212,81,59,0.15); }
+
+        /* ── Sticker Buddy ── */
+        .sticker-buddy {
+          position: fixed;
+          right: 40px;
+          top: 110px;
+          z-index: 50;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 10px;
+        }
+        .sticker-frame {
+          width: 140px;
+          height: 140px;
+          border-radius: 22px;
+          border: 5px solid white;
+          box-shadow: 0 6px 30px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04);
+          overflow: hidden;
+          transform: rotate(4deg);
+        }
+        .sticker-frame img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          pointer-events: none;
+        }
+        .sticker-bubble {
+          background: white;
+          border-radius: 18px 18px 6px 18px;
+          padding: 10px 16px;
+          box-shadow: 0 3px 16px rgba(0,0,0,0.1);
+          text-align: center;
+          position: relative;
+          max-width: 165px;
+        }
+        .bubble-tail {
+          position: absolute;
+          bottom: -9px;
+          right: 22px;
+          width: 0;
+          height: 0;
+          border-left: 9px solid transparent;
+          border-right: 9px solid transparent;
+          border-top: 11px solid white;
+          filter: drop-shadow(0 2px 2px rgba(0,0,0,0.04));
+        }
+
+        /* Sticker Animations */
+        @keyframes stickerPopUp {
+          0%   { opacity: 0; transform: translateY(80px) scale(0.5) rotate(20deg); }
+          55%  { opacity: 1; transform: translateY(-12px) scale(1.1) rotate(-4deg); }
+          78%  { transform: translateY(4px) scale(0.97) rotate(1deg); }
+          100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+        }
+        @keyframes stickerDisappear {
+          0%   { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+          25%  { opacity: 0.9; transform: translateY(-18px) scale(1.07) rotate(-3deg); }
+          100% { opacity: 0; transform: translateY(80px) scale(0.3) rotate(20deg); }
+        }
+        @keyframes bubblePopIn {
+          0%   { opacity: 0; transform: scale(0.3) translateY(10px); }
+          65%  { opacity: 1; transform: scale(1.1) translateY(-3px); }
+          100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes bubbleFadeOut {
+          0%   { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(0.3) translateY(10px); }
+        }
+
+        .sticker-in  { animation: stickerPopUp 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .sticker-out { animation: stickerDisappear 0.65s ease forwards; }
+        .sticker-bubble-in  { animation: bubblePopIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.4s both; }
+        .sticker-bubble-out { animation: bubbleFadeOut 0.25s ease forwards; }
+
+        /* Mobile: absolute on the day/week view card, right side */
+        @media (max-width: 768px) {
+          .sticker-buddy {
+            position: absolute;
+            right: -6px;
+            top: -28px;
+            flex-direction: row;
+            align-items: flex-end;
+            gap: 5px;
+            z-index: 10;
+          }
+          .sticker-frame {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            border: 3px solid white;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.14);
+            flex-shrink: 0;
+          }
+          .sticker-bubble {
+            padding: 4px 8px;
+            border-radius: 10px 10px 10px 3px;
+            max-width: 115px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          }
+          .sticker-bubble span { font-size: 9px !important; }
+          .sticker-bubble strong { font-size: 10px !important; }
+          .bubble-tail {
+            bottom: auto;
+            left: auto;
+            right: -7px;
+            top: 8px;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid white;
+            border-right: none;
+          }
+        }
       `}</style>
 
       <div style={{ maxWidth: 440, margin: "0 auto" }}>
@@ -184,8 +298,8 @@ export default function WeekCalendar() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 transition: "all 0.15s",
               }}>‹</button>
-              <div style={{
-                fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+            <div style={{
+              fontSize: 10, fontWeight: 700, textTransform: "uppercase",
                 letterSpacing: "2px", color: "#94A3B8",
               }}>Week {currentWeek} · {semesterData.semester}</div>
               <button onClick={goToNextWeek} disabled={currentWeek >= WEEK_MAX} style={{
@@ -323,34 +437,37 @@ export default function WeekCalendar() {
           </div>
         </div>
 
-        {/* Main Content */}
+        {/* Main Content – position:relative so sticker can be absolute on mobile */}
+        <div style={{ position: "relative" }}>
+          <StickerBuddy hasClasses={view === "day" && dayClasses.length > 0} />
         {view === "week" ? (
           <div style={{
             background: "#fff", border: "1px solid #E2E8F0",
             borderRadius: 14, padding: "18px 16px", marginBottom: 14,
             boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            animation: "scaleIn 0.3s ease both",
+              animation: "scaleIn 0.3s ease both",
           }}>
-            <WeekPreview weekClasses={weekClasses} weekDates={weekDates} todayIndex={todayIndex} />
+              <WeekPreview weekClasses={weekClasses} weekDates={weekDates} todayIndex={todayIndex} />
           </div>
         ) : (
           <div style={{
             background: "#fff", border: "1px solid #E2E8F0",
             borderRadius: 14, padding: "18px 16px", marginBottom: 14,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-            animation: "scaleIn 0.3s ease both",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+              animation: "scaleIn 0.3s ease both",
           }}>
             <div style={{ marginBottom: 14 }}>
               <span style={{ fontSize: 15, fontWeight: 700, color: "#1E293B" }}>
-                {selectedDay === todayIndex && isCurrentWeek ? "Today" : DAY_NAMES[selectedDay]}, {formatDate(weekDates[selectedDay])}
+                  {selectedDay === todayIndex && isCurrentWeek ? "Today" : DAY_NAMES[selectedDay]}, {formatDate(weekDates[selectedDay])}
               </span>
               <span style={{ fontSize: 13, color: "#94A3B8", marginLeft: 8 }}>
                 {dayClasses.length === 0 ? "No classes" : `${dayClasses.length} class${dayClasses.length > 1 ? "es" : ""}`}
               </span>
             </div>
-            <DayTimeline classes={dayClasses} />
+              <DayTimeline classes={dayClasses} />
           </div>
         )}
+        </div>
 
         {/* Bottom Stats */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
@@ -395,7 +512,7 @@ export default function WeekCalendar() {
               }}>{stat.label}</div>
               <div style={{
                 fontSize: 18, fontWeight: 800, color: stat.accent,
-                fontFamily: "'Space Mono', monospace", lineHeight: 1,
+                  fontFamily: "'Space Mono', monospace", lineHeight: 1,
                 whiteSpace: "nowrap",
               }}>{stat.value}</div>
               {stat.sub && <div style={{ fontSize: 10, color: "#94A3B8", fontWeight: 500, marginTop: 3 }}>{stat.sub}</div>}
