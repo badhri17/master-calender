@@ -1,0 +1,131 @@
+{
+    "university": "NEU",
+    "program": "M.S. Software Engineering",
+    "semester": "2025 Autumn",
+    "weeksRange": [2, 18],
+    "courses": [
+      {
+        "id": "chinese",
+        "name": "Chinese (语文)",
+        "code": "yl202295001",
+        "classId": "Y002063",
+        "instructor": "Jing Ran, Wang Jingyu, Liu Xiaoke, Zhang Dan",
+        "location": "Mining 308",
+        "icon": "📖",
+        "accent": "#E74C3C",
+        "accentBg": "#FDF2F2"
+      },
+      {
+        "id": "research",
+        "name": "Academic Research Methods & Norms",
+        "code": "yz202209371",
+        "classId": "Y002031",
+        "instructor": "Dai Yu",
+        "location": "Dacheng 102* (Smart Classroom)",
+        "icon": "🔬",
+        "accent": "#8B5CF6",
+        "accentBg": "#F5F3FF"
+      },
+      {
+        "id": "network",
+        "name": "Fundamental Methods of Network Science",
+        "code": "yz202209367",
+        "classId": "Y002028",
+        "instructor": "Gao Tianhan",
+        "location": "No. 1 B106",
+        "icon": "🌐",
+        "accent": "#2563EB",
+        "accentBg": "#EFF6FF"
+      },
+      {
+        "id": "warehouse",
+        "name": "Analytical Data Warehouse System",
+        "code": "yz202209369",
+        "classId": "Y002029",
+        "instructor": "Song Jie",
+        "location": "B108, No. 1",
+        "icon": "🗄️",
+        "accent": "#10B981",
+        "accentBg": "#ECFDF5"
+      },
+      {
+        "id": "ux",
+        "name": "User Experience & Interaction Design",
+        "code": "yz202209370",
+        "classId": "Y002030",
+        "instructor": "Song Jie",
+        "location": "No. 1 B106",
+        "icon": "🎨",
+        "accent": "#F59E0B",
+        "accentBg": "#FFFBEB"
+      }
+    ],
+    "schedule": [
+      {
+        "courseId": "chinese",
+        "day": 0,
+        "startTime": "14:00",
+        "endTime": "15:40",
+        "sections": "§5–6",
+        "weeks": [2, 17]
+      },
+      {
+        "courseId": "research",
+        "day": 0,
+        "startTime": "16:00",
+        "endTime": "17:40",
+        "sections": "§7–8",
+        "weeks": [13, 13]
+      },
+      {
+        "courseId": "research",
+        "day": 0,
+        "startTime": "18:30",
+        "endTime": "22:00",
+        "sections": "§9–12",
+        "weeks": [11, 13]
+      },
+      {
+        "courseId": "research",
+        "day": 3,
+        "startTime": "18:30",
+        "endTime": "22:00",
+        "sections": "§9–12",
+        "weeks": [11, 13]
+      },
+      {
+        "courseId": "network",
+        "day": 1,
+        "startTime": "08:30",
+        "endTime": "12:10",
+        "sections": "§1–4",
+        "weeks": [11, 18]
+      },
+      {
+        "courseId": "warehouse",
+        "day": 1,
+        "startTime": "14:00",
+        "endTime": "17:40",
+        "sections": "§5–8",
+        "weeks": [2, 9]
+      },
+      {
+        "courseId": "ux",
+        "day": 1,
+        "startTime": "18:30",
+        "endTime": "22:00",
+        "sections": "§9–12",
+        "weeks": [2, 9]
+      }
+    ],
+    "semesterStartDate": "2026-03-02",
+    "dayMap": {
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
+    }
+  }
