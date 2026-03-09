@@ -49,15 +49,21 @@ export default function DayTimeline({ classes }) {
             <div key={cls.id} className="hover-lift" style={{
               position: "absolute", top: style.top, height: style.height,
               left: 0, right: 0, background: cls.accentBg,
-              borderLeft: `3px solid ${cls.accent}`,
-              borderRadius: "0 10px 10px 0", padding: "8px 12px",
+              border: "none",
+              borderLeft: `3.5px solid ${cls.accent}`,
+              borderRadius: 12, padding: "10px 14px",
               display: "flex", flexDirection: "column", justifyContent: "center",
               overflow: "hidden",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
               animation: `slideInLeft 0.4s ease ${idx * 0.12}s both`,
               transition: "transform 0.2s ease, box-shadow 0.2s ease",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
-                <span style={{ fontSize: 15 }}>{cls.icon}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
+                <span style={{
+                  fontSize: 14, width: 28, height: 28, borderRadius: 8,
+                  background: cls.accentBg, display: "flex", alignItems: "center",
+                  justifyContent: "center", flexShrink: 0,
+                }}>{cls.icon}</span>
                 <span style={{ fontSize: 13, fontWeight: 700, color: "#1E293B" }}>{cls.shortName}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 10, color: "#64748B" }}>
